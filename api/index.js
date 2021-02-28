@@ -4,6 +4,7 @@ const config = require('config');
 const bodyParser = require('body-parser');
 const connection = require('./database/connection');
 const routes = require('./routes/students');
+const IdNotFound = require('./errors/IdNotFound');
 
 connection.connect(async (error) => {
     if (error) {
@@ -17,6 +18,19 @@ connection.connect(async (error) => {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use('/api/students', routes)
+
+        app.use((error, req, res, next) => {
+            let status = 500;
+
+            if (error instanceof IdNotFound) status = 404;
+
+            res.status(status);
+            res.send(
+                JSON.stringify({
+                    message: error.message
+                })
+            );
+        })
 
         app.listen(config.get('api.port'), () => console.log("Listening..."))
     }

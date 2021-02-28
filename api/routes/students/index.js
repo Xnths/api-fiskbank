@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     res.send(students);
 })
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
     try {
         const data = req.body;
         const student = new Student(data);
@@ -17,28 +17,18 @@ router.post('/', async (req, res) => {
             JSON.stringify(student)
         );
     } catch (error) {
-        res.status(400);
-        res.send(
-            JSON.stringify({
-                message: error.message
-            })
-        );
+        next(error);
     }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
         const student = await studentsTable.findStudentById(id);
         res.status(200);
         res.send(student);
     } catch (error) {
-        res.status(404);
-        res.send(
-            JSON.stringify({
-                message: error.message
-            })
-        )
+        next(error);
     }
 })
 
