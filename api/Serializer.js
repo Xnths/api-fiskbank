@@ -10,8 +10,14 @@ class Serializer {
         throw new NotSupported(this.contentType);
     }
 }
-
+class SerializerStudent extends Serializer {
+    constructor(contentType) {
+        super();
+        this.contentType = contentType;
+    }
+}
 module.exports = {
     Serializer: Serializer,
+    SerializerStudent: SerializerStudent,
     acceptedFormats: ['application/json']
 }

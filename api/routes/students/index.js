@@ -1,20 +1,30 @@
 const router = require('express').Router();
 const studentsTable = require('./StudentsTable');
 const Student = require('./Student');
+const SerializerStudent = require('../../Serializer').SerializerStudent
 
 router.get('/', async (req, res) => {
     const students = await studentsTable.findAllStudents();
-    res.send(students);
+    const serializer = new SerializerStudent(
+        res.getHeader("Content-Type")
+    )
+
+    res.send(serializer.serialize(students));
 })
 
 router.post('/', async (req, res, next) => {
     try {
         const data = req.body;
         const student = new Student(data);
+        const serializer = new SerializerStudent(
+            res.getHeader("Content-Type")
+        )
+
         await student.subscribe();
+
         res.status(201);
         res.send(
-            JSON.stringify(student)
+            serializer.serialize(student)
         );
     } catch (error) {
         next(error);
@@ -25,8 +35,12 @@ router.get('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
         const student = await studentsTable.findStudentById(id);
+        const serializer = new SerializerStudent(
+            res.getHeader("Content-Type")
+        )
+
         res.status(200);
-        res.send(student);
+        res.send(serializer.serialize(student));
     } catch (error) {
         next(error);
     }
