@@ -25,6 +25,7 @@ connection.connect(async (error) => {
 
             if (error instanceof IdNotFound) status = 404;
             if (error instanceof InvalidParam) status = 400;
+            if (error instanceof NotSupported) status = 406;
 
             res.status(status);
             res.send(
