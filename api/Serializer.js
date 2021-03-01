@@ -10,3 +10,8 @@ class Serializer {
         throw new NotSupported(this.contentType);
     }
 }
+
+module.exports = {
+    Serializer: Serializer,
+    acceptedFormats: ['application/json']
+}

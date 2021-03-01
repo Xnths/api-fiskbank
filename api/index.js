@@ -6,6 +6,7 @@ const connection = require('./database/connection');
 const routes = require('./routes/students');
 const IdNotFound = require('./errors/IdNotFound');
 const InvalidParam = require('./errors/InvalidParam');
+const acceptedFormats = require('./Serializer').acceptedFormats;
 
 connection.connect(async (error) => {
     if (error) {
@@ -15,6 +16,23 @@ connection.connect(async (error) => {
         await table.init();
 
         const app = express();
+
+        app.use((req, res, next) => {
+            let format = req.header('Accept');
+
+            if (format == "*/*") {
+                format = "application/json";
+            }
+
+            if (!acceptedFormats.includes(format)) {
+                res.status(406);
+                res.end();
+                return
+            }
+
+            res.setHeader('Content-Type', format);
+            next()
+        })
 
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
