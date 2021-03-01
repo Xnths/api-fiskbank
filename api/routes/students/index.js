@@ -11,7 +11,7 @@ router.post('/', async (req, res, next) => {
     try {
         const data = req.body;
         const student = new Student(data);
-        await student.subscribe(student);
+        await student.subscribe();
         res.status(201);
         res.send(
             JSON.stringify(student)

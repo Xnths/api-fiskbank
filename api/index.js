@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const connection = require('./database/connection');
 const routes = require('./routes/students');
 const IdNotFound = require('./errors/IdNotFound');
+const InvalidParam = require('./errors/InvalidParam');
 
 connection.connect(async (error) => {
     if (error) {
@@ -23,6 +24,7 @@ connection.connect(async (error) => {
             let status = 500;
 
             if (error instanceof IdNotFound) status = 404;
+            if (error instanceof InvalidParam) status = 400;
 
             res.status(status);
             res.send(
