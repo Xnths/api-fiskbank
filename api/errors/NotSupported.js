@@ -5,3 +5,5 @@ class NotSupported extends Error {
         this.idError = 2;
     }
 }
+
+module.exports = NotSupported;

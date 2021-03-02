@@ -6,6 +6,7 @@ const connection = require('./database/connection');
 const routes = require('./routes/students');
 const IdNotFound = require('./errors/IdNotFound');
 const InvalidParam = require('./errors/InvalidParam');
+const NotSupported = require('./errors/NotSupported');
 const acceptedFormats = require('./Serializer').acceptedFormats;
 
 connection.connect(async (error) => {
