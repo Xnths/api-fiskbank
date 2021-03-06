@@ -29,14 +29,29 @@ class Serializer {
     }
 }
 class SerializerStudent extends Serializer {
-    constructor(contentType) {
+    constructor(contentType, extraParams) {
         super();
         this.contentType = contentType;
-        this.publicParams = ['id', 'name'];
+        this.publicParams = [
+            'id',
+            'name'
+        ].concat(extraParams || []);
+    }
+}
+class SerializerError extends Serializer {
+    constructor(contentType, extraParams) {
+        super();
+        this.contentType = contentType;
+        this.publicParams = [
+            'idError',
+            'name',
+            'message'
+        ].concat(extraParams || []);
     }
 }
 module.exports = {
     Serializer: Serializer,
     SerializerStudent: SerializerStudent,
+    SerializerError: SerializerError,
     acceptedFormats: ['application/json']
 }
