@@ -36,7 +36,8 @@ router.get('/:id', async (req, res, next) => {
         const id = req.params.id;
         const student = await studentsTable.findStudentById(id);
         const serializer = new SerializerStudent(
-            res.getHeader("Content-Type")
+            res.getHeader("Content-Type"),
+            ['book']
         )
 
         res.status(200);

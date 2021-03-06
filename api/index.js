@@ -8,6 +8,7 @@ const IdNotFound = require('./errors/IdNotFound');
 const InvalidParam = require('./errors/InvalidParam');
 const NotSupported = require('./errors/NotSupported');
 const acceptedFormats = require('./Serializer').acceptedFormats;
+const NotEligibleParam = require('./errors/NotEligibleParam');
 
 connection.connect(async (error) => {
     if (error) {
@@ -45,6 +46,7 @@ connection.connect(async (error) => {
             if (error instanceof IdNotFound) status = 404;
             if (error instanceof InvalidParam) status = 400;
             if (error instanceof NotSupported) status = 406;
+            if (error instanceof NotEligibleParam) status = 403;
 
             res.status(status);
             res.send(
