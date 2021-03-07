@@ -65,6 +65,17 @@ router.patch('/:id', async (req, res, next) => {
 })
 
 const routerTransactions = require('./transactions');
-router.use('/:id/transactions', routerTransactions);
+const validStudent = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const student = new Student({ id: id })
+        await studentsTable.findStudentById(id);
+        req.student = student;
+        next()
+    } catch (error) {
+        next(error);
+    }
+}
+router.use('/:id/transactions', validStudent, routerTransactions);
 
 module.exports = router;

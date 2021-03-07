@@ -1,6 +1,7 @@
 const router = require('express').Router({ mergeParams: true })
 const TransactionTable = require('./TransactionsTable');
 const SerializerTransactions = require('../../../Serializer').SerializerTransactions;
+const EmptyLog = require('../../../errors/EmptyLog');
 
 router.get('/', async (req, res, next) => {
     const id = req.params.id;
@@ -9,6 +10,7 @@ router.get('/', async (req, res, next) => {
         const serializer = new SerializerTransactions(
             res.getHeader('Content-Type')
         )
+        if (transactions.toString() == "") throw new EmptyLog("transactions")
         res.send(serializer.serialize(transactions));
     } catch (error) {
         next(error);

@@ -9,6 +9,8 @@ const InvalidParam = require('./errors/InvalidParam');
 const NotSupported = require('./errors/NotSupported');
 const acceptedFormats = require('./Serializer').acceptedFormats;
 const NotEligibleParam = require('./errors/NotEligibleParam');
+const EmptyLog = require('./errors/EmptyLog');
+const SerializerError = require('./Serializer').SerializerError;
 
 connection.connect(async (error) => {
     if (error) {
@@ -47,12 +49,15 @@ connection.connect(async (error) => {
             if (error instanceof InvalidParam) status = 400;
             if (error instanceof NotSupported) status = 406;
             if (error instanceof NotEligibleParam) status = 403;
+            if (error instanceof EmptyLog) status = 412;
+
+            const serializer = new SerializerError(
+                res.getHeader('Content-Type')
+            )
 
             res.status(status);
             res.send(
-                JSON.stringify({
-                    message: error.message
-                })
+                serializer.serialize(error)
             );
         })
 
