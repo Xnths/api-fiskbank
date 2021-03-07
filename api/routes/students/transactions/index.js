@@ -3,7 +3,16 @@ const TransactionTable = require('./TransactionsTable');
 const SerializerTransactions = require('../../../Serializer').SerializerTransactions;
 
 router.get('/', async (req, res, next) => {
-    res.send(JSON.stringify("GET"))
+    const id = req.params.id;
+    try {
+        const transactions = await TransactionTable.log(id);
+        const serializer = new SerializerTransactions(
+            res.getHeader('Content-Type')
+        )
+        res.send(serializer.serialize(transactions));
+    } catch (error) {
+        next(error);
+    }
 })
 
 router.post('/', async (req, res, next) => {
