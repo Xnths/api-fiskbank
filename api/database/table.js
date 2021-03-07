@@ -1,5 +1,5 @@
 const studentsTable = require('../routes/students/ModelStudentsTable');
-const fiskDollarsTable = require('../routes/students/fiskdollars/ModelFiskDollarsTable')
+const transactionsTable = require('../routes/students/transactions/ModelTransactionsTable')
 
 class table {
     init() {
@@ -8,8 +8,8 @@ class table {
             .catch(error => {
                 console.log(error)
             })
-        fiskDollarsTable()
-            .then(console.log("Fisk Dollar Tablee successfuly created!"))
+        transactionsTable()
+            .then(console.log("Transactions Table successfuly created!"))
             .catch(error => {
                 console.log(error);
             })

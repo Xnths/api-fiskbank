@@ -64,7 +64,7 @@ router.patch('/:id', async (req, res, next) => {
     }
 })
 
-const routerFiskDollars = require('./fiskdollars');
-router.use('/:id/fiskdollars', routerFiskDollars);
+const routerTransactions = require('./transactions');
+router.use('/:id/transactions', routerTransactions);
 
 module.exports = router;

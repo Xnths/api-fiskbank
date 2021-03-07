@@ -1,4 +1,3 @@
-const { createConnection } = require('mysql');
 const query = require('../../database/query');
 
 const create = () => {
