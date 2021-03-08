@@ -3,6 +3,7 @@ const TransactionTable = require('./TransactionsTable');
 const SerializerTransactions = require('../../../Serializer').SerializerTransactions;
 const SerializerBalance = require('../../../Serializer').SerializerBalance;
 const EmptyLog = require('../../../errors/EmptyLog');
+const Transaction = require('./Transaction');
 
 router.get('/', async (req, res, next) => {
     const id = req.params.id;
@@ -38,8 +39,9 @@ router.post('/', async (req, res, next) => {
         id: id,
         amount: data.amount
     }
+    const transaction = new Transaction(data);
     try {
-        await TransactionTable.deposit(data);
+        await transaction.deposit();
         const serializer = new SerializerTransactions(
             res.getHeader('Content-Type')
         );
