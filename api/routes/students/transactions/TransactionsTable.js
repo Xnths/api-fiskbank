@@ -8,5 +8,9 @@ module.exports = {
     log(id) {
         const sql = "SELECT * FROM Transactions WHERE id=?"
         return query(sql, id);
+    },
+    checkBalance(id) {
+        const sql = "SELECT SUM(amount) AS balance FROM Transactions WHERE id=?"
+        return query(sql, id)
     }
 }

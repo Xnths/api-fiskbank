@@ -76,11 +76,23 @@ class SerializerTransactions extends Serializer {
         this.tagPlural = 'Transactions';
     }
 }
+class SerializerBalance extends Serializer {
+    constructor(contentType, extraParams) {
+        super();
+        this.contentType = contentType;
+        this.publicParams = [
+            'balance'
+        ].concat(extraParams);
+        this.tagSingular = 'Balance';
+        this.tagPlural = 'Balances';
+    }
+}
 
 module.exports = {
     Serializer: Serializer,
     SerializerStudent: SerializerStudent,
     SerializerError: SerializerError,
     SerializerTransactions: SerializerTransactions,
+    SerializerBalance: SerializerBalance,
     acceptedFormats: ['application/json', 'application/xml']
 }
