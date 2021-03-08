@@ -69,7 +69,7 @@ class SerializerTransactions extends Serializer {
         super();
         this.contentType = contentType;
         this.publicParams = [
-            'id',
+            'name',
             'amount'
         ].concat(extraParams || []);
         this.tagSingular = 'Transaction';
@@ -81,6 +81,7 @@ class SerializerBalance extends Serializer {
         super();
         this.contentType = contentType;
         this.publicParams = [
+            'name',
             'balance'
         ].concat(extraParams);
         this.tagSingular = 'Balance';
