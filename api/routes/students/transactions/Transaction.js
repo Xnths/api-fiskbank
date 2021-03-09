@@ -3,20 +3,25 @@ const StudentsTable = require('../StudentsTable');
 const NegativeNumber = require('../../../errors/NegativeNumber');
 
 class Transaction {
-    constructor({ id, amount }) {
-        this.id = id;
+    constructor({ operationID, studentID, name, amount }) {
+        this.operationID = operationID;
+        this.studentID = studentID;
+        this.name = name;
         this.amount = amount;
     }
-    deposit() {
-        this._validadeInformation();
-        TransactionsTable.deposit({
-            id: this.id,
+    async deposit() {
+        this._valstudentIDadeInformation();
+        const name = await StudentsTable.findStudentById(this.studentID);
+        const result = await TransactionsTable.deposit({
+            studentID: this.studentID,
             amount: this.amount
         })
+        this.operationID = result.operationID;
+        this.name = name;
     }
-    _validadeInformation() {
-        //if the id does not exists this function will trigger an error
-        StudentsTable.findStudentById(this.id);
+    async _valstudentIDadeInformation() {
+        //if the studentID does not exists this function will trigger an error
+        await StudentsTable.findStudentById(this.studentID);
         if (parseFloat(this.amount) < 0) throw new NegativeNumber("amount");
     }
 }
