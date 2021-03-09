@@ -6,8 +6,8 @@ const EmptyLog = require('../../../errors/EmptyLog');
 const Transaction = require('./Transaction');
 
 router.get('/', async (req, res, next) => {
-    const id = req.params.id;
     try {
+        const id = req.params.id;
         const transactions = await TransactionTable.log(id);
         const serializer = new SerializerTransactions(
             res.getHeader('Content-Type')
@@ -20,8 +20,8 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/balance', async (req, res, next) => {
-    const id = req.params.id;
     try {
+        const id = req.params.id;
         const balance = await TransactionTable.checkBalance(id);
         const serializer = new SerializerBalance(
             res.getHeader('Content-Type')
@@ -33,14 +33,14 @@ router.get('/balance', async (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-    const id = req.params.id;
-    let data = req.body;
-    data = {
-        id: id,
-        amount: data.amount
-    }
-    const transaction = new Transaction(data);
     try {
+        const id = req.params.id;
+        let data = req.body;
+        data = {
+            id: id,
+            amount: data.amount
+        }
+        const transaction = new Transaction(data);
         await transaction.deposit();
         const serializer = new SerializerTransactions(
             res.getHeader('Content-Type')
