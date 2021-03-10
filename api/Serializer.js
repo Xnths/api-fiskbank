@@ -44,7 +44,7 @@ class SerializerStudent extends Serializer {
         super();
         this.contentType = contentType;
         this.publicParams = [
-            'id',
+            'studentID',
             'name'
         ].concat(extraParams || []);
         this.tagSingular = 'student';
@@ -56,7 +56,7 @@ class SerializerError extends Serializer {
         super();
         this.contentType = contentType;
         this.publicParams = [
-            'idError',
+            'studentIDError',
             'name',
             'message'
         ].concat(extraParams || []);

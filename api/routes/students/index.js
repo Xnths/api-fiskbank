@@ -31,10 +31,10 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:studentID', async (req, res, next) => {
     try {
-        const id = req.params.id;
-        const student = await studentsTable.findStudentById(id);
+        const studentID = req.params.studentID;
+        const student = await studentsTable.findStudentById(studentID);
         const serializer = new SerializerStudent(
             res.getHeader("Content-Type"),
             ['book']
@@ -47,12 +47,12 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:studentID', async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const studentID = req.params.studentID;
         const info = req.body;
-        await studentsTable.updateInformation(id, info);
-        const student = await studentsTable.findStudentById(id);
+        await studentsTable.updateInformation(studentID, info);
+        const student = await studentsTable.findStudentById(studentID);
         const serializer = new SerializerStudent(
             res.getHeader('Content-Type')
         )
@@ -65,17 +65,17 @@ router.patch('/:id', async (req, res, next) => {
 })
 
 const routerTransactions = require('./transactions');
-const validStudent = async (req, res, next) => {
+const valstudentIDStudent = async (req, res, next) => {
     try {
-        const id = req.params.id;
-        const student = new Student({ id: id })
-        await studentsTable.findStudentById(id);
+        const studentID = req.params.studentID;
+        const student = new Student({ studentID: studentID })
+        await studentsTable.findStudentById(studentID);
         req.student = student;
         next()
     } catch (error) {
         next(error);
     }
 }
-router.use('/:id/transactions', validStudent, routerTransactions);
+router.use('/:studentID/transactions', valstudentIDStudent, routerTransactions);
 
 module.exports = router;

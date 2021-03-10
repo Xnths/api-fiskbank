@@ -2,23 +2,23 @@ const InvalidParam = require('../../errors/InvalidParam');
 const studentsTable = require('./StudentsTable');
 
 class Student {
-    constructor({ id, name, book }) {
-        this.id = id;
+    constructor({ studentID, name, book }) {
+        this.studentID = studentID;
         this.name = name;
         this.book = book;
     }
 
     async subscribe() {
-        this._validateInformation();
+        this._valstudentIDateInformation();
         const result = await studentsTable.insert({
             name: this.name,
             book: this.book
         })
 
-        this.id = result.id;
+        this.studentID = result.studentID;
     }
 
-    _validateInformation() {
+    _valstudentIDateInformation() {
         if (this.name.length < 6) throw new InvalidParam("Name");
         if (this.book.length > 5) throw new InvalidParam("Book");
     }

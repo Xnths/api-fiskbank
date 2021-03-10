@@ -11,22 +11,22 @@ module.exports = {
         const sql = "SELECT * FROM Students";
         return query(sql);
     },
-    async findStudentById(id) {
-        const sql = "SELECT * FROM Students WHERE id=?";
-        const find = await query(sql, id);
-        if (!find.length > 0) throw new IdNotFound(id);
+    async findStudentById(studentID) {
+        const sql = "SELECT * FROM Students WHERE studentID=?";
+        const find = await query(sql, studentID);
+        if (!find.length > 0) throw new IdNotFound(studentID);
         return find;
     },
-    async updateInformation(id, info) {
+    async updateInformation(studentID, info) {
         //make sure the student exists
-        this.findStudentById(id);
+        this.findStudentById(studentID);
 
-        const notEligibleParams = ['id'];
+        const notEligibleParams = ['studentID'];
         notEligibleParams.forEach(param => {
             if (info[param]) throw new NotEligibleParam(param);
         })
 
-        const sql = "UPDATE Students SET ? WHERE id=?";
-        return query(sql, [info, id]);
+        const sql = "UPDATE Students SET ? WHERE studentID=?";
+        return query(sql, [info, studentID]);
     }
 }

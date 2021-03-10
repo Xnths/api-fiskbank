@@ -7,8 +7,8 @@ const Transaction = require('./Transaction');
 
 router.get('/', async (req, res, next) => {
     try {
-        const id = req.params.id;
-        const transactions = await TransactionTable.log(id);
+        const studentID = req.params.studentID;
+        const transactions = await TransactionTable.log(studentID);
         const serializer = new SerializerTransactions(
             res.getHeader('Content-Type')
         )
@@ -21,8 +21,8 @@ router.get('/', async (req, res, next) => {
 
 router.get('/balance', async (req, res, next) => {
     try {
-        const id = req.params.id;
-        const balance = await TransactionTable.checkBalance(id);
+        const studentID = req.params.studentID;
+        const balance = await TransactionTable.checkBalance(studentID);
         const serializer = new SerializerBalance(
             res.getHeader('Content-Type')
         )
@@ -34,10 +34,10 @@ router.get('/balance', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const studentID = req.params.studentID;
         let data = req.body;
         data = {
-            id: id,
+            studentID: studentID,
             amount: data.amount
         }
         const transaction = new Transaction(data);
