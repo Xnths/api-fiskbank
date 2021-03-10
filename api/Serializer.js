@@ -83,9 +83,21 @@ class SerializerBalance extends Serializer {
         this.publicParams = [
             'name',
             'balance'
-        ].concat(extraParams);
+        ].concat(extraParams || []);
         this.tagSingular = 'Balance';
         this.tagPlural = 'Balances';
+    }
+}
+class SerializerOperation extends Serializer {
+    constructor(contentType, extraParams) {
+        super();
+        this.contentType = contentType;
+        this.publicParams = [
+            'name',
+            'amount'
+        ].concat(extraParams || []);
+        this.tagSingular = 'Operation';
+        this.tagPlural = 'Operations';
     }
 }
 
@@ -95,5 +107,6 @@ module.exports = {
     SerializerError: SerializerError,
     SerializerTransactions: SerializerTransactions,
     SerializerBalance: SerializerBalance,
+    SerializerOperation: SerializerOperation,
     acceptedFormats: ['application/json', 'application/xml']
 }
