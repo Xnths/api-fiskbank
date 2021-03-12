@@ -11,19 +11,22 @@ class Transaction {
         this.amount = amount;
     }
     async deposit() {
-        this._valstudentIDadeInformation();
+        this._studentIsSubscribed();
+
+        if (this.amount < 0) throw new NegativeNumber("amount");
+
         const name = await StudentsTable.findStudentById(this.studentID);
         const result = await TransactionsTable.deposit({
             studentID: this.studentID,
             amount: this.amount
         })
+
         this.operationID = result.operationID;
         this.name = name;
     }
-    async _valstudentIDadeInformation() {
+    async _studentIsSubscribed() {
         //if the studentID does not exists this function will trigger an error
         await StudentsTable.findStudentById(this.studentID);
-        if (parseFloat(this.amount) < 0) throw new NegativeNumber("amount");
     }
     async getOperation() {
         const operation = await TransactionsTable.getOperationById(this.operationID);

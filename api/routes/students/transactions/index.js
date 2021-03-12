@@ -52,7 +52,7 @@ router.get('/balance', async (req, res, next) => {
     }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/deposit', async (req, res, next) => {
     try {
         const studentID = req.params.studentID;
         let data = req.body;
