@@ -22,6 +22,11 @@ connection.connect(async (error) => {
         const app = express();
 
         app.use((req, res, next) => {
+            res.set('Access-Control-Allow-Origin', '*')
+            next();
+        })
+
+        app.use((req, res, next) => {
             let format = req.header('Accept');
 
             if (format == "*/*") {
