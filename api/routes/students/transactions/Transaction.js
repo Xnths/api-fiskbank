@@ -2,6 +2,8 @@ const TransactionsTable = require("./TransactionsTable");
 const StudentsTable = require('../StudentsTable');
 const NegativeNumber = require('../../../errors/NegativeNumber');
 const UnauthorizedCommand = require('../../../errors/UnauthorizedCommand');
+const PositiveNumber = require('../../../errors/PositiveNumber');
+const InsufficientFunds = require('../../../errors/InsufficientFunds')
 
 class Transaction {
     constructor({ operationID, studentID, name, amount }) {
@@ -15,14 +17,14 @@ class Transaction {
 
         if (this.amount < 0) throw new NegativeNumber("amount");
 
-        const name = await StudentsTable.findStudentById(this.studentID);
-        const result = await TransactionsTable.deposit({
+        const student = await StudentsTable.findStudentById(this.studentID);
+        const result = await TransactionsTable.insert({
             studentID: this.studentID,
             amount: this.amount
         })
 
         this.operationID = result.operationID;
-        this.name = name;
+        this.name = student.name;
     }
     async _studentIsSubscribed() {
         //if the studentID does not exists this function will trigger an error
@@ -32,9 +34,27 @@ class Transaction {
         const operation = await TransactionsTable.getOperationById(this.operationID);
         this.name = operation.name;
         this.amount = operation.amount;
-        this._valstudentIDadeInformation();
+        this._studentIsSubscribed();
         if (this.studentID != operation.studentID) throw new UnauthorizedCommand(this.studentID);
         return operation;
+    }
+    async withdraw() {
+        this._studentIsSubscribed();
+
+        const account = await TransactionsTable.getAccount(this.studentID);
+
+        if (account.balance < this.amount) throw new InsufficientFunds();
+
+        if (this.amount > 0) throw new PositiveNumber(amount);
+
+        const student = await StudentsTable.findStudentById(this.studentID);
+        const result = await TransactionsTable.insert({
+            studentID: this.studentID,
+            amount: this.amount
+        });
+
+        this.name = student.name;
+        this.operationID = result.operationID;
     }
 }
 

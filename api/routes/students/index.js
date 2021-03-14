@@ -3,6 +3,13 @@ const studentsTable = require('./StudentsTable');
 const Student = require('./Student');
 const SerializerStudent = require('../../Serializer').SerializerStudent;
 
+router.options('/', (req, res) => {
+    res.set('Access-Control-Allow-Methods', 'GET, POST');
+    res.set('Access-Control-Allow-Headers', 'Content-type');
+    res.send(204);
+    res.end();
+})
+
 router.get('/', async (req, res) => {
     const students = await studentsTable.findAllStudents();
     const serializer = new SerializerStudent(
@@ -29,6 +36,13 @@ router.post('/', async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+})
+
+router.options('/:studentID', (req, res) => {
+    res.set('Access-Control-Allow-Methods', 'GET, POST');
+    res.set('Access-Control-Allow-Headers', 'Content-type');
+    res.send(204);
+    res.end();
 })
 
 router.get('/:studentID', async (req, res, next) => {

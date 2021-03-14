@@ -2,7 +2,7 @@ const query = require('../../../database/query');
 const IdNotFound = require('../../../errors/IdNotFound');
 
 module.exports = {
-    deposit(data) {
+    insert(data) {
         const sql = "INSERT INTO Transactions SET ?";
         return query(sql, data)
     },
@@ -10,7 +10,7 @@ module.exports = {
         const sql = "SELECT t1.name, t2.amount FROM Students t1, Transactions t2 WHERE t1.studentID=? AND t2.studentID=?"
         return query(sql, [studentID, studentID]);
     },
-    checkBalance(studentID) {
+    getAccount(studentID) {
         const sql = "SELECT t1.name, SUM(t2.amount) AS balance FROM Students t1, Transactions t2 WHERE t1.studentID=? AND t2.studentID=?"
         return query(sql, [studentID, studentID])
     },
