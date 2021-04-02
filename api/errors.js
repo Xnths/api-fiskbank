@@ -22,7 +22,7 @@ class InvalidParams extends Error {
         this.name = "InvalidParams";
     }
 }
-class NegativeNumber extends Errorr {
+class NegativeNumber extends Error {
     constructor(message) {
         super(message);
         this.name = "NegativeNumber";
