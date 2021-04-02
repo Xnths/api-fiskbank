@@ -1,6 +1,6 @@
+require('dotenv').config();
 const table = require('./database/table');
 const express = require('express');
-const config = require('config');
 const bodyParser = require('body-parser');
 const connection = require('./database/connection');
 const routes = require('./routes/students');
@@ -66,6 +66,6 @@ connection.connect(async (error) => {
             );
         })
 
-        app.listen(config.get('api.port'), () => console.log("Listening..."))
+        app.listen(process.env.API_PORT, () => console.log("Listening..."))
     }
 })
