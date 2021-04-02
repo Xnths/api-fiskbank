@@ -1,5 +1,5 @@
 const query = require('../../../database/query');
-const IdNotFound = require('../../../errors/IdNotFound');
+const { IdNotFound } = require('../../../errors');
 
 module.exports = {
     insert(data) {

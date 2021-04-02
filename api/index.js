@@ -4,12 +4,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const connection = require('./database/connection');
 const routes = require('./routes/students');
-const IdNotFound = require('./errors/IdNotFound');
-const InvalidParam = require('./errors/InvalidParam');
-const NotSupported = require('./errors/NotSupported');
+const {
+    IdNotFound,
+    InvalidParams,
+    NotSupported,
+    NotEligibleParam,
+    EmptyLog
+} = require('./errors');
 const acceptedFormats = require('./Serializer').acceptedFormats;
-const NotEligibleParam = require('./errors/NotEligibleParam');
-const EmptyLog = require('./errors/EmptyLog');
 const SerializerError = require('./Serializer').SerializerError;
 
 connection.connect(async (error) => {
@@ -51,7 +53,7 @@ connection.connect(async (error) => {
             let status = 500;
 
             if (error instanceof IdNotFound) status = 404;
-            if (error instanceof InvalidParam) status = 400;
+            if (error instanceof InvalidParams) status = 400;
             if (error instanceof NotSupported) status = 406;
             if (error instanceof NotEligibleParam) status = 403;
             if (error instanceof EmptyLog) status = 412;

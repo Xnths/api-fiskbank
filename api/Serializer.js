@@ -1,4 +1,4 @@
-const NotSupported = require('./errors/NotSupported')
+const { NotSupported } = require('./errors')
 const jsontoxml = require('jsontoxml')
 
 class Serializer {
@@ -20,7 +20,7 @@ class Serializer {
         data = this.filter(data);
         if (this.contentType === "application/json") return this._json(data);
         if (this.contentType === "application/xml") return this._xml(data);
-        throw new NotSupported(this.contentType);
+        throw new NotSupported(`${this.contentType} is not supported.`);
     }
     filterObject(data) {
         const newObject = {};

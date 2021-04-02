@@ -3,8 +3,8 @@ const TransactionTable = require('./TransactionsTable');
 const SerializerTransactions = require('../../../Serializer').SerializerTransactions;
 const SerializerBalance = require('../../../Serializer').SerializerBalance;
 const SerializerOperation = require('../../../Serializer').SerializerOperation;
-const EmptyLog = require('../../../errors/EmptyLog');
 const Transaction = require('./Transaction');
+const { EmptyLog } = require('../../../errors');
 
 router.options('/', (req, res) => {
     res.set('Access-Control-Allow-Methods', 'GET');
@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
         const serializer = new SerializerTransactions(
             res.getHeader('Content-Type')
         )
-        if (transactions.toString() == "") throw new EmptyLog("transactions");
+        if (transactions.toString() == "") throw new EmptyLog(`${studentID} have no transaction recorded.`);
         res.set('Location', `api/students/${studentID}/transactions/`)
         res.send(serializer.serialize(transactions));
     } catch (error) {

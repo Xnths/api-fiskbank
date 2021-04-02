@@ -1,4 +1,4 @@
-const InvalidParam = require('../../errors/InvalidParam');
+const { InvalidParam } = require('../../errors');
 const studentsTable = require('./StudentsTable');
 
 class Student {
@@ -19,8 +19,8 @@ class Student {
     }
 
     _valstudentIDateInformation() {
-        if (this.name.length < 6) throw new InvalidParam("Name");
-        if (this.book.length > 5) throw new InvalidParam("Book");
+        if (this.name.length < 6) throw new InvalidParam("Name must have more than 6 characters.");
+        if (this.book.length > 5) throw new InvalidParam("Book's name must have more than 5 characters.");
     }
 }
 

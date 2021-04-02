@@ -1,9 +1,11 @@
 const TransactionsTable = require("./TransactionsTable");
 const StudentsTable = require('../StudentsTable');
-const NegativeNumber = require('../../../errors/NegativeNumber');
-const UnauthorizedCommand = require('../../../errors/UnauthorizedCommand');
-const PositiveNumber = require('../../../errors/PositiveNumber');
-const InsufficientFunds = require('../../../errors/InsufficientFunds')
+const {
+    NegativeNumber,
+    UnauthorizedCommand,
+    PositiveNumber,
+    InsufficientFunds
+} = require('../../../errors');
 
 class Transaction {
     constructor({ operationID, studentID, name, amount }) {
@@ -13,9 +15,9 @@ class Transaction {
         this.amount = amount;
     }
     async deposit() {
-        this._studentIsSubscribed();
+        this._IsStudentSubscribed();
 
-        if (this.amount < 0) throw new NegativeNumber("amount");
+        if (this.amount < 0) throw new NegativeNumber("Deposits cannot be negative.");
 
         const student = await StudentsTable.findStudentById(this.studentID);
         const result = await TransactionsTable.insert({
@@ -26,7 +28,7 @@ class Transaction {
         this.operationID = result.operationID;
         this.name = student.name;
     }
-    async _studentIsSubscribed() {
+    async _IsStudentSubscribed() {
         //if the studentID does not exists this function will trigger an error
         await StudentsTable.findStudentById(this.studentID);
     }
@@ -34,18 +36,18 @@ class Transaction {
         const operation = await TransactionsTable.getOperationById(this.operationID);
         this.name = operation.name;
         this.amount = operation.amount;
-        this._studentIsSubscribed();
-        if (this.studentID != operation.studentID) throw new UnauthorizedCommand(this.studentID);
+        this._IsStudentSubscribed();
+        if (this.studentID != operation.studentID) throw new UnauthorizedCommand("You are not allowed to perform this action.");
         return operation;
     }
     async withdraw() {
-        this._studentIsSubscribed();
+        this._IsStudentSubscribed();
 
         const account = await TransactionsTable.getAccount(this.studentID);
 
-        if (account.balance < this.amount) throw new InsufficientFunds();
+        if (account.balance < this.amount) throw new InsufficientFunds("There is not enough funds to perform this action.");
 
-        if (this.amount > 0) throw new PositiveNumber(amount);
+        if (this.amount > 0) throw new PositiveNumber("Withdraw cannot be positive");
 
         const student = await StudentsTable.findStudentById(this.studentID);
         const result = await TransactionsTable.insert({
