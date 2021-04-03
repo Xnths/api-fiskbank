@@ -1,18 +1,25 @@
-const studentsTable = require('../routes/students/ModelStudentsTable');
-const transactionsTable = require('../routes/students/transactions/ModelTransactionsTable')
+const model = require('./models')
 
 class table {
-    init() {
-        studentsTable()
-            .then(console.log("Students Table successfuly created."))
-            .catch(error => {
-                console.log(error)
-            })
-        transactionsTable()
-            .then(console.log("Transactions Table successfuly created!"))
-            .catch(error => {
-                console.log(error);
-            })
+    async init() {
+        await model.people()
+            .then(console.log("People's table has been sucessfuly created."))
+            .catch(console.log);
+        await model.user()
+            .then(console.log("Users' table has been successfuly created."))
+            .catch(console.log);
+        await model.students()
+            .then(console.log("Students' table has been successfuly created."))
+            .catch(console.log);
+        await model.accounts()
+            .then(console.log("Accounts' table has been sucessfuly created."))
+            .catch(console.log);
+        await model.staff()
+            .then(console.log("Staff's table has been successfuly created."))
+            .catch(console.log);
+        await model.transactions()
+            .then(console.log("Transactions' Table successfuly created!"))
+            .catch(console.log);
     }
 
 }

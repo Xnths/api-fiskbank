@@ -17,26 +17,39 @@ class Serializer {
         return jsontoxml({ [tag]: data });
     }
     serialize(data) {
-        data = this.filter(data);
+        data = this._filter(data);
         if (this.contentType === "application/json") return this._json(data);
         if (this.contentType === "application/xml") return this._xml(data);
         throw new NotSupported(`${this.contentType} is not supported.`);
     }
-    filterObject(data) {
+    _filterObject(data) {
         const newObject = {};
         this.publicParams.forEach(param => {
             if (data.hasOwnProperty(param)) newObject[param] = data[param];
         })
         return newObject;
     }
-    filter(data) {
+    _filter(data) {
         if (Array.isArray(data)) {
-            data = data.map(item => this.filterObject(item));
+            data = data.map(item => this._filterObject(item));
         } else {
-            data = this.filterObject(data);
+            data = this._filterObject(data);
         }
 
         return data;
+    }
+}
+class SerializerPeople extends Serializer {
+    constructor(contentType, extraParams) {
+        super();
+        this.contentType = contentType;
+        this.publicParams = [
+            'name',
+            'type',
+            'registredAt'
+        ].concat(extraParams || []);
+        this.tagSingular = "person";
+        this.tagPlural = "people";
     }
 }
 class SerializerStudent extends Serializer {
@@ -102,11 +115,12 @@ class SerializerOperation extends Serializer {
 }
 
 module.exports = {
-    Serializer: Serializer,
-    SerializerStudent: SerializerStudent,
-    SerializerError: SerializerError,
-    SerializerTransactions: SerializerTransactions,
-    SerializerBalance: SerializerBalance,
-    SerializerOperation: SerializerOperation,
+    Serializer,
+    SerializerStudent,
+    SerializerError,
+    SerializerTransactions,
+    SerializerBalance,
+    SerializerOperation,
+    SerializerPeople,
     acceptedFormats: ['application/json', 'application/xml']
 }
