@@ -4,5 +4,5 @@ module.exports = {
     accounts: require('./accounts'),
     people: require('./people'),
     staff: require('./staff'),
-    user: require('./user')
+    users: require('./users')
 }

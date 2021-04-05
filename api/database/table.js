@@ -5,7 +5,7 @@ class table {
         await model.people()
             .then(console.log("People's table has been sucessfuly created."))
             .catch(console.log);
-        await model.user()
+        await model.users()
             .then(console.log("Users' table has been successfuly created."))
             .catch(console.log);
         await model.students()

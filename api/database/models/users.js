@@ -2,7 +2,7 @@ const query = require('../query');
 
 const create = () => {
     const sql = `CREATE TABLE IF NOT EXISTS
-        User(email VARCHAR(100) NOT NULL PRIMARY KEY,
+        Users(email VARCHAR(100) NOT NULL PRIMARY KEY,
             person_id SMALLINT,
             hashPassword VARCHAR(256),
             FOREIGN KEY (person_id) REFERENCES People(id))`
