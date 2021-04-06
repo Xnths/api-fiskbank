@@ -13,6 +13,7 @@ class PeopleController {
 
             await peopleService.insert(data);
             res.status(201).send(serializer.serialize(data));
+            res.next();
         } catch (error) {
             next(error);
         }
@@ -61,7 +62,7 @@ class PeopleController {
             res.status(200).send(serializer.serialize(updatedPerson));
             next();
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
     static async deletePerson(req, res, next) {
@@ -73,7 +74,7 @@ class PeopleController {
             res.status(204).send();
             next();
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 }
