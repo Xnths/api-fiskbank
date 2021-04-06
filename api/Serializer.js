@@ -52,6 +52,18 @@ class SerializerPeople extends Serializer {
         this.tagPlural = "people";
     }
 }
+class SerializerStaff extends Serializer {
+    constructor(contentType, extraParams) {
+        super();
+        this.contentType = contentType;
+        this.publicParams = [
+            'name',
+            'position'
+        ].concat(extraParams || []);
+        this.tagSingular = "staff";
+        this.tagPlural = "staff";
+    }
+}
 class SerializerStudent extends Serializer {
     constructor(contentType, extraParams) {
         super();
@@ -116,8 +128,9 @@ class SerializerOperation extends Serializer {
 
 module.exports = {
     Serializer,
-    SerializerStudent,
     SerializerError,
+    SerializerStudent,
+    SerializerStaff,
     SerializerTransactions,
     SerializerBalance,
     SerializerOperation,
