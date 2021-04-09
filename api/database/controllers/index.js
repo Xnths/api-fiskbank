@@ -1,3 +1,4 @@
 module.exports = {
-    PeopleController: require('./PeopleController')
+    PeopleController: require('./PeopleController'),
+    StaffController: require('./StaffController')
 }

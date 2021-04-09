@@ -52,6 +52,12 @@ class UnauthorizedCommand extends Error {
         this.name = "UnauthorizedCommand";
     }
 }
+class DuplicateEntry extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "DuplicateEntry";
+    }
+}
 
 module.exports = {
     EmptyLog,
@@ -62,5 +68,6 @@ module.exports = {
     NotEligibleParam,
     NotSupported,
     PositiveNumber,
-    UnauthorizedCommand
+    UnauthorizedCommand,
+    DuplicateEntry
 }

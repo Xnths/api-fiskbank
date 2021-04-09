@@ -9,20 +9,19 @@ class Services {
         return query(sql, data);
     }
     async findAll() {
-        const sql = `SELECT * FROM ${this._modelName} WHERE deletedAt IS NULL`;
+        const sql = `SELECT * FROM ${this._modelName}`;
         return query(sql);
     }
     async findOneById({ id }) {
         const sql = `SELECT * FROM ${this._modelName} WHERE id=?`;
         return query(sql, id);
     }
-    async update(data, id) {
-        const sql = `UPDATE ${this._modelName} SET ?, updatedAt = CURRENT_TIMESTAMP WHERE id=?`;
+    async update(data, { id }) {
+        const sql = `UPDATE ${this._modelName} SET ? WHERE id=?`;
         return query(sql, [data, id]);
     }
-    //soft-deleting
     async delete({ id }) {
-        const sql = `UPDATE ${this._modelName} SET deletedAt = CURRENT_TIMESTAMP WHERE id=?`;
+        const sql = `DELETE FROM ${this._modelName} WHERE id=?`;
         return query(sql, id);
     }
 }

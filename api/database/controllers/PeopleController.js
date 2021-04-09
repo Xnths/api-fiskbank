@@ -13,7 +13,7 @@ class PeopleController {
 
             await peopleService.insert(data);
             res.status(201).send(serializer.serialize(data));
-            res.next();
+            next();
         } catch (error) {
             next(error);
         }
@@ -40,7 +40,7 @@ class PeopleController {
                 res.getHeader('Content-Type')
             )
 
-            const person = await peopleService.findOneById({ id })
+            const person = await peopleService.findOneById({ id });
             res.status(200).send(serializer.serialize(person));
             next();
         } catch (error) {
@@ -56,7 +56,7 @@ class PeopleController {
                 res.getHeader('Content-Type')
             )
 
-            await peopleService.update(data, id);
+            await peopleService.update(data, { id });
 
             const updatedPerson = await peopleService.findOneById({ id });
             res.status(200).send(serializer.serialize(updatedPerson));
