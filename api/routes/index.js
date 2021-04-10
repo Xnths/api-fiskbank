@@ -1,4 +1,5 @@
 module.exports = {
     people: require('./people'),
-    staff: require('./staff')
+    staff: require('./staff'),
+    students: require('./students')
 }

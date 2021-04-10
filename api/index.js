@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const db = require('./database');
 const app = require('./app');
-const { people, staff } = require('./routes')
+const { people, staff, students } = require('./routes')
 const {
     IdNotFound,
     InvalidParams,
@@ -21,6 +21,7 @@ db.connection.connect(async (error) => {
         app
             .use('/api', people)
             .use('/api', staff)
+            .use('/api', students)
 
 
         app.use((error, req, res, next) => {

@@ -69,8 +69,8 @@ class SerializerStudent extends Serializer {
         super();
         this.contentType = contentType;
         this.publicParams = [
-            'studentID',
-            'name'
+            'name',
+            'book'
         ].concat(extraParams || []);
         this.tagSingular = 'student';
         this.tagPlural = 'students';
